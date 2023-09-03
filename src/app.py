@@ -275,10 +275,159 @@ def one_pelicula(pelicula_id):
     return jsonify(response_body), 200 
 
 #----------------------------------------------------------------------------------------
-
-#[POST]
  
 #Crear planeta 
+
+@app.route('/planetas', methods=['POST'])
+def create_planet():
+    request_body = request.json
+    print(request_body)
+
+    planet_query = Planets.query.filter_by(climate=request_body["climate"], diameter=request_body["diameter"], gravity=request_body["gravity"], id=request_body["id"], name=request_body["name"], orbital_period=request_body["orbital_period"], population=request_body["population"], rotation_period=request_body["rotation_period"], surface_water=request_body["surface_water"], terrain=request_body["terrain"]).first()
+
+    if planet_query is None:
+        new_planet = Planets(climate=request_body["climate"], diameter=request_body["diameter"], gravity=request_body["gravity"], id=request_body["id"], name=request_body["name"], orbital_period=request_body["orbital_period"], population=request_body["population"], rotation_period=request_body["rotation_period"], surface_water=request_body["surface_water"], terrain=request_body["terrain"])
+        db.session.add(new_planet)
+        db.session.commit()
+
+        response_body = {
+            "msg": "Planeta creado"
+        }
+        return jsonify(response_body), 200
+    else:
+        
+        return jsonify({"msg": "Planeta ya existente"}), 400
+    
+ #Eliminar planeta   
+@app.route('/planetas/<int:planet_id>', methods=['DELETE'])
+def delete_planet(planet_id):
+    planet_to_delete = Planets.query.get(planet_id)
+
+    if planet_to_delete is None:
+        return jsonify({"msg": "El planeta no existe"}), 404
+
+    db.session.delete(planet_to_delete)
+    db.session.commit()
+
+    response_body = {
+        "msg": "Planeta eliminado"
+    }
+
+    return jsonify(response_body), 200
+
+    
+#Crear personaje
+
+@app.route('/personajes', methods=['POST'])
+def create_personaje():
+    request_body = request.json
+    personaje_query = Characters.query.filter_by(Birth_Year=request_body["Birth_Year"], Eye_Color=request_body["Eye_Color"], Gender=request_body["Gender"], Hair_Color=request_body["Hair_Color"], Height=request_body["Height"], Mass=request_body["Mass"], Name=request_body["Name"], Skin_Color=request_body["Skin_Color"], id=request_body["id"]).first()
+    if personaje_query is None:
+        new_personaje = Characters(Birth_Year=request_body["Birth_Year"], Eye_Color=request_body["Eye_Color"], Gender=request_body["Gender"], Hair_Color=request_body["Hair_Color"], Height=request_body["Height"], Mass=request_body["Mass"], Name=request_body["Name"], Skin_Color=request_body["Skin_Color"], id=request_body["id"])
+        db.session.add(new_personaje)
+        db.session.commit()
+
+        response_body = {
+            "msg": "Personaje creado"
+        }
+        return jsonify(response_body), 200
+    else:
+        
+        return jsonify({"msg": "Personaje ya existente"}), 400
+    
+ #Eliminar personaje  
+
+@app.route('/personajes/<int:persona_id>', methods=['DELETE'])
+def delete_personaje(persona_id):
+    persona_to_delete = Characters.query.get(persona_id)
+
+    if persona_to_delete is None:
+        return jsonify({"msg": "El personaje no existe"}), 404
+
+    db.session.delete(persona_to_delete)
+    db.session.commit()
+
+    response_body = {
+        "msg": "Personaje eliminado"
+    }
+
+    return jsonify(response_body), 200
+
+#Crear Vehiculo
+
+@app.route('/vehicles', methods=['POST'])
+def create_vehiculo():
+    request_body = request.json
+    print(request_body)
+
+    vehiculo_query = Vehicle.query.filter_by(Modelo=request_body["Modelo"], Manufacturer=request_body["Manufacturer"], Cost_in_credits=request_body["Cost_in_credits"], Lenght=request_body["Lenght"], Max_Speed=request_body["Max_Speed"], Crew=request_body["Crew"], Passengers=request_body["Passengers"]).first()
+    if vehiculo_query is None:
+        new_vehiculo = Vehicle(Modelo=request_body["Modelo"], Manufacturer=request_body["Manufacturer"], Cost_in_credits=request_body["Cost_in_credits"], Lenght=request_body["Lenght"], Max_Speed=request_body["Max_Speed"], Crew=request_body["Crew"], Passengers=request_body["Passengers"])
+        db.session.add(new_vehiculo)
+        db.session.commit()
+
+        response_body = {
+            "msg": "Vehiculo creado"
+        }
+        return jsonify(response_body), 200
+    else:
+        
+        return jsonify({"msg": "Vehiculo ya existente"}), 400
+    
+ #Eliminar vehiculo  
+@app.route('/vehicles/<int:vehicle_id>', methods=['DELETE'])
+def delete_vehiculo(vehicle_id):
+    vehiculo_to_delete = Vehicle.query.get(vehicle_id)
+
+    if vehiculo_to_delete is None:
+        return jsonify({"msg": "El Vehiculo no existe"}), 404
+
+    db.session.delete(vehiculo_to_delete)
+    db.session.commit()
+
+    response_body = {
+        "msg": "Vehiculo eliminado"
+    }
+
+    return jsonify(response_body), 200
+
+#Crear peliculas
+@app.route('/peliculas', methods=['POST'])
+def create_peliculas():
+    request_body = request.json
+    print(request_body)
+
+    pelicula_query = Films.query.filter_by(id=request_body["id"],Title=request_body["Title"], Director=request_body["Director"], Produccion=request_body["Produccion"], Fecha_de_Estreno=request_body["Fecha_de_Estreno"]).first()
+    if pelicula_query is None:
+        new_pelicula = Films(id=request_body["id"],Title=request_body["Title"], Director=request_body["Director"], Produccion=request_body["Produccion"], Fecha_de_Estreno=request_body["Fecha_de_Estreno"])
+        db.session.add(new_pelicula)
+        db.session.commit()
+
+        response_body = {
+            "msg": "Pelicula creada"
+        }
+        return jsonify(response_body), 200
+    else:
+        
+        return jsonify({"msg": "Pelicula ya existente"}), 400
+    
+ #Eliminar pelicula
+@app.route('/peliculas/<int:pelicula_id>', methods=['DELETE'])
+def pelicula_vehiculo(pelicula_id):
+    pelicula_to_delete = Films.query.get(pelicula_id)
+
+    if pelicula_to_delete is None:
+        return jsonify({"msg": "La pelicula no existe"}), 404
+
+    db.session.delete(pelicula_to_delete)
+    db.session.commit()
+
+    response_body = {
+        "msg": "Pelicula eliminada"
+    }
+
+    return jsonify(response_body), 200
+
 
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':

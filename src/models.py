@@ -69,7 +69,7 @@ class Characters(db.Model):
             "Height": self.Height,
             "Mass": self.Mass,
             "Hair_Color": self.Hair_Color,
-            "Skin-Color": self.Skin_Color,
+            "Skin_Color": self.Skin_Color,
             "Eye_Color": self.Eye_Color,
             "Birth_Year": self.Birth_Year,
             "Gender": self.Gender,
