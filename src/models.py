@@ -17,7 +17,6 @@ class User(db.Model):
             "email": self.email,
             # do not serialize the password, its a security breach
         }
-
 class Favorite(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -25,7 +24,7 @@ class Favorite(db.Model):
     character_id = db.Column(db.Integer, db.ForeignKey('characters.id'), nullable=True)
     character = db.relationship('Characters', backref='favorited_by')
     planet_id = db.Column(db.Integer, db.ForeignKey('planets.id'), nullable=True)
-    planet = db.relationship('Planets', backref='favorited_by', foreign_keys=[planet_id])
+    planet = db.relationship('Planets', backref='favorited_by')
     vehicle_id = db.Column(db.Integer, db.ForeignKey('vehicle.id'), nullable=True)
     vehicle = db.relationship('Vehicle', backref='favorited_by')
     film_id = db.Column(db.Integer, db.ForeignKey('films.id'), nullable=True)
@@ -38,12 +37,11 @@ class Favorite(db.Model):
         return {
             "id_favorito": self.id,
             "usuario": self.user_id,
-            "vehiculo_id": self.vehicle_id,
+            "character_id": self.character_id,
             "planet_id": self.planet_id,
+            "vehicle_id": self.vehicle_id,
             "film_id": self.film_id,
-            "character_id": self.character_id
-
-            # do not serialize the password, its a security breach
+            # do not serialize the password, it's a security breach
         }
     
     
@@ -148,7 +146,7 @@ class Films(db.Model):
             "id": self.id,
             "Title": self.Title,
             "Director": self.Director,
-            "Prodcuccion": self.Produccion,
+            "Produccion": self.Produccion,
             "Fecha_de_Estreno": self.Fecha_de_Estreno,
           
         }
